@@ -72,6 +72,7 @@ def extract_all_data(driver, wait, round: int):
             second_place_table = driver.find_element(By.XPATH, SECOND_PLACE_PATH)
             data["second"] += extract_second_place_table_data(table_element=second_place_table, round=round)
         except Exception as e:
+            driver.save_screenshot('./screenshot.png')
             print(f"ERROR: {e}")
             break
 

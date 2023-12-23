@@ -1,5 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.chrome.options import Options
 from models import First, Second  # 클래스 임포트
 from scraper import extract  # 스크래핑 함수 임포트
 
@@ -7,8 +8,11 @@ import time
 
 
 def main():
-    driver = webdriver.Chrome()
-
+    options = Options()
+    options.add_argument("--window-size=1200,900")
+    options.add_argument("--headless")  # Enables headless mode
+    
+    driver = webdriver.Chrome(options=options)
     driver.get("https://dhlottery.co.kr/store.do?method=topStore&pageGubun=L645")
     time.sleep(3)
 
