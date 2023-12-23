@@ -4,6 +4,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from config import FIRST_PLACE_PATH, SECOND_PLACE_PATH, PAGINATION_LINK_PATH
 
 import time
+import re
 
 def extract_first_place_table_data(table_element, round: int):
     tbody = table_element.find_element(By.TAG_NAME, "tbody")
@@ -14,7 +15,13 @@ def extract_first_place_table_data(table_element, round: int):
         if len(cells) < 2:
             print("1등 당첨자가 없습니다. 회차: ", round)
             break
-        cell_data = {"name": cells[1].text, "type": cells[2].text, "address": cells[3].text, "round": round}
+        cell_data = {
+            "name": cells[1].text,
+            "type": cells[2].text,
+            "address": cells[3].text,
+            "round": round,
+            "retailer_id": extract_retailer_id(retailer_cell=cells[-1])
+        }
         data.append(cell_data)
 
     return data
@@ -28,7 +35,11 @@ def extract_second_place_table_data(table_element, round: int):
         if len(cells) < 2:
             print("2등 당첨자가 없습니다. 회차: ", round)
             break
-        cell_data = {"name": cells[1].text, "address": cells[2].text, "round": round}
+        cell_data = {
+            "name": cells[1].text,
+            "address": cells[2].text,
+            "round": round,
+            "retailer_id": extract_retailer_id(retailer_cell=cells[-1])}
         data.append(cell_data)
 
     return data
@@ -65,6 +76,17 @@ def extract_all_data(driver, wait, round: int):
             break
 
     return data
+
+def extract_retailer_id(retailer_cell):
+    try:
+        retailer_element = retailer_cell.find_element(By.TAG_NAME, "a")
+        onclick_attribute = retailer_element.get_attribute("onclick")
+        match = re.search(r"showMapPage\('(\d+)'\)", onclick_attribute)
+        if match:
+            return match.group(1)
+    except Exception as e:
+        print(f"ERROR EXTRACT RETAILER ID!")
+    return "NOT FOUND"
 
 def extract(driver, wait, round):
     try:

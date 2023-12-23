@@ -14,7 +14,7 @@ def main():
 
     wait = WebDriverWait(driver, 10)
     start_round = 1098
-    end_round = 0
+    end_round = 1097
     for option_value in range(start_round, end_round, -1):
         data = extract(driver=driver, wait=wait, round=option_value)
         if data:    

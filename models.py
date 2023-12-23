@@ -8,33 +8,37 @@ Session = sessionmaker(bind=engine)
 
 
 class First(Base):
-    __tablename__ = 'first_place'
-    id = Column(Integer, Sequence('first_id_seq'), primary_key=True)
+    __tablename__ = 'shop_first'
+    id = Column(Integer, Sequence('shop_first_id_seq'), primary_key=True)
     name = Column(String)
     type = Column(String)
     address = Column(String)
     round = Column(Integer)
+    retailer_id = Column(String)
 
     @staticmethod
     def insert(data):
         session = Session()
         for item in data:
-            record = First(name=item['name'], type=item['type'], address=item['address'], round=item['round'])
+            record = First(name=item['name'], type=item['type'], address=item['address'], round=item['round'], retailer_id=item['retailer_id'])
             session.add(record)
         session.commit()
 
 
 class Second(Base):
-    __tablename__ = 'second_place'
-    id = Column(Integer, Sequence('second_id_seq'), primary_key=True)
+    __tablename__ = 'shop_second'
+    id = Column(Integer, Sequence('shop_second_id_seq'), primary_key=True)
     name = Column(String)
     address = Column(String)
     round = Column(Integer)
+    retailer_id = Column(String)
 
     @staticmethod
     def insert(data):
         session = Session()
         for item in data:
-            record = Second(name=item['name'], address=item['address'], round=item['round'])
+            record = Second(name=item['name'], address=item['address'], round=item['round'], retailer_id=item['retailer_id'])
             session.add(record)
         session.commit()
+
+Base.metadata.create_all(engine)
