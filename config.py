@@ -2,3 +2,8 @@ FIRST_PLACE_PATH = "//h4[contains(text(), '1등 배출점')]/ancestor::div[@clas
 SECOND_PLACE_PATH = "//h4[contains(text(), '2등 배출점')]/ancestor::div[@class='group_content']/table[@class='tbl_data tbl_data_col']"
 PAGINATION_LINK_PATH = "//div[@id='page_box']//a"
 DATABASE_URL = "postgresql://postgres:lotto@localhost:5432/lotto"
+ADDRESS = "//table[@class='tbl_data']"
+LATITUDE = "//form[@name='pointForm']/input[@name='lat']"
+LONGITUDE = "//form[@name='pointForm']/input[@name='lon']"
+LOTTO_WINNING_SHOP_URL = "https://dhlottery.co.kr/store.do?method=topStore&pageGubun=L645"
+LOTTO_SHOP_DETAILS_URL = "https://dhlottery.co.kr/store.do?method=topStoreLocation&gbn=lotto&rtlrId="
